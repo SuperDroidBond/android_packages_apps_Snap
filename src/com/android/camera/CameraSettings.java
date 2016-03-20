@@ -163,8 +163,7 @@ public class CameraSettings {
     private static final String KEY_QC_SUPPORTED_VIDEO_TNR_MODES = "video-tnr-mode-values";
     private static final String KEY_QC_SUPPORTED_FACE_DETECTION = "face-detection-values";
     private static final String KEY_SNAPCAM_SUPPORTED_HDR_MODES = "hdr-mode-values";
-    public static final String KEY_SNAPCAM_SHUTTER_SPEED = "shutter-speed";
-    public static final String KEY_SNAPCAM_SHUTTER_SPEED_MODES = "shutter-speed-values";
+    public static final String KEY_SNAPCAM_SHUTTER_SPEED = "exposure-time";
     public static final String KEY_QC_AE_BRACKETING = "ae-bracket-hdr";
     public static final String KEY_QC_AF_BRACKETING = "af-bracket";
     public static final String KEY_QC_RE_FOCUS = "re-focus";
@@ -527,15 +526,6 @@ public class CameraSettings {
 
     public static void setISOValue(Parameters params, String iso) {
         params.set(mKeyIso, iso);
-    }
-
-    public static List<String> getSupportedShutterSpeedValues(Parameters params) {
-        String shutterSpeedValues = params.get(KEY_SNAPCAM_SHUTTER_SPEED_MODES);
-        if (shutterSpeedValues == null) {
-            return null;
-        }
-        Log.d(TAG, "Supported shutter speed values: " + shutterSpeedValues);
-        return split(shutterSpeedValues);
     }
 
     public static String getSupportedHighestVideoQuality(
@@ -987,11 +977,6 @@ public class CameraSettings {
         if (mIso != null) {
             filterUnsupportedOptions(group,
                     mIso, getSupportedIsoValues(mParameters));
-        }
-
-        if (mShutterSpeed != null) {
-            filterUnsupportedOptions(group,
-                    mShutterSpeed, getSupportedShutterSpeedValues(mParameters));
         }
 
         if (redeyeReduction != null) {

@@ -3176,6 +3176,12 @@ public class PhotoModule
         mRestartPreview = false;
         String zsl = mPreferences.getString(CameraSettings.KEY_ZSL,
                                   mActivity.getString(R.string.pref_camera_zsl_default));
+        String shutterSpeed = mPreferences.getString(
+                            CameraSettings.KEY_SHUTTER_SPEED,
+                            mActivity.getString(R.string.pref_camera_shutter_speed_default));
+        if (!shutterSpeed.equals("0")) {
+            zsl = "off";
+        }
         if(zsl.equals("on") && mSnapshotMode != CameraInfoWrapper.CAMERA_SUPPORT_MODE_ZSL
            && mCameraState != PREVIEW_STOPPED) {
             //Switch on ZSL Camera mode
@@ -3374,10 +3380,7 @@ public class PhotoModule
         String shutterSpeed = mPreferences.getString(
                 CameraSettings.KEY_SHUTTER_SPEED,
                 mActivity.getString(R.string.pref_camera_shutter_speed_default));
-        if (CameraUtil.isSupported(shutterSpeed,
-            CameraSettings.getSupportedShutterSpeedValues(mParameters))) {
-            mParameters.set(CameraSettings.KEY_SNAPCAM_SHUTTER_SPEED, shutterSpeed);
-        }
+        mParameters.set(CameraSettings.KEY_SNAPCAM_SHUTTER_SPEED, shutterSpeed);
         // Set color effect parameter.
         String colorEffect = mPreferences.getString(
                 CameraSettings.KEY_COLOR_EFFECT,
@@ -3681,6 +3684,10 @@ public class PhotoModule
 
         String zsl = mPreferences.getString(CameraSettings.KEY_ZSL,
                                   mActivity.getString(R.string.pref_camera_zsl_default));
+        // Disable ZSL for manual shutter speed
+        if (!shutterSpeed.equals("0")) {
+            zsl = "off";
+        }
         ParametersWrapper.setZSLMode(mParameters, zsl);
         if(zsl.equals("on") && ParametersWrapper.getSupportedZSLModes(mParameters) != null) {
             //Switch on ZSL Camera mode
